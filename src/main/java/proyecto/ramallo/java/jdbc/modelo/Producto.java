@@ -14,6 +14,18 @@ public class Producto {
         this.precio = precio;
         this.fecha_ingreso = fecha_ingreso;
     }
+
+    @Override
+    public String toString() {
+        return id_prod +
+                "|" +
+                nombre +
+                "|" +
+                 precio +
+                "|" +
+                fecha_ingreso;
+    }
+
     public Producto(){
 
     }

@@ -1,5 +1,8 @@
 package proyecto.ramallo.java.jdbc;
 
+import proyecto.ramallo.java.jdbc.modelo.Producto;
+import proyecto.ramallo.java.jdbc.repositorio.ProductoRepositorioImpl;
+import proyecto.ramallo.java.jdbc.repositorio.Repositorio;
 import proyecto.ramallo.java.jdbc.util.ConexionBaseDatos;
 
 import javax.management.MBeanAttributeInfo;
@@ -11,16 +14,10 @@ public class ProyectoJDBC {
         //final String databaseURL = "jdbc:h2:~/test";
         try(Connection conexion = ConexionBaseDatos.getInstance();
         ){
-            Statement stmt =  conexion.createStatement();
-            ResultSet resultado = stmt.executeQuery("SELECT * FROM productos");
+            Repositorio<Producto> repositorio = new ProductoRepositorioImpl();
+            repositorio.listar().forEach(System.out::println);
 
-            while(resultado.next()){
-                System.out.print(resultado.getString("nombre") );
-                System.out.print("  ");
-                System.out.print(resultado.getInt("precio"));
-                System.out.println(" ");
-
-            }
+            System.out.println(repositorio.porID(2L));
         }catch(SQLException sqlException){
             sqlException.printStackTrace();
         }
