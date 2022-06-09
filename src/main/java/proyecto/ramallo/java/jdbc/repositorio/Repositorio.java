@@ -1,5 +1,6 @@
 package proyecto.ramallo.java.jdbc.repositorio;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface Repositorio<T> {
@@ -12,5 +13,5 @@ public interface Repositorio<T> {
 
     void modificar(T t);
 
-    void eliminar(Long id);
+    void eliminar(Long id) throws SQLException;
 }

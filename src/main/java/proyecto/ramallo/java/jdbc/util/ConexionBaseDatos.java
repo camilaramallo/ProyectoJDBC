@@ -10,6 +10,8 @@ public class ConexionBaseDatos {
     private static  String password = "";
     private static Connection conexion;
 
+    private ConexionBaseDatos (){}
+
     //creamos un metodo estatico getConnection para establecer la conexción
     public static Connection getInstance() throws SQLException {
         if(conexion == null){
