@@ -1,5 +1,6 @@
 package proyecto.ramallo.java.jdbc;
 
+import proyecto.ramallo.java.jdbc.modelo.Categoria;
 import proyecto.ramallo.java.jdbc.modelo.Producto;
 import proyecto.ramallo.java.jdbc.repositorio.ProductoRepositorioImpl;
 import proyecto.ramallo.java.jdbc.repositorio.Repositorio;
@@ -25,6 +26,9 @@ public class EjemploJDBCUpdate {
             producto.setId_prod(8L);
             producto.setNombre("Mouse");
             producto.setPrecio(1500);
+            Categoria categoria = new Categoria();
+            categoria.setId_catg(1L);
+            producto.setCategoria(categoria);
             repositorio.guardar(producto);
             System.out.println("Producto editado con éxito");
             repositorio.listar().forEach(System.out::println); //con referencia al metodo

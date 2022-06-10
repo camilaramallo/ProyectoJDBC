@@ -1,5 +1,6 @@
 package proyecto.ramallo.java.jdbc.repositorio;
 
+import proyecto.ramallo.java.jdbc.modelo.Categoria;
 import proyecto.ramallo.java.jdbc.modelo.Producto;
 import proyecto.ramallo.java.jdbc.util.ConexionBaseDatos;
 
@@ -18,7 +19,8 @@ public class ProductoRepositorioImpl implements Repositorio<Producto>{
         List<Producto> productos = new ArrayList<>();
 
         try(Statement stmt = getConnection().createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM PRODUCTOS")) {
+            ResultSet rs = stmt.executeQuery("select p.* ,c.id_catg, c.nombre as categoria from productos  as p " +
+                    "join categorias as c on p.tipo_cat = c.id_catg\n")) {
                 //iteramos el resultSet y por c/ registro de la BD creamos un obj Product y la guardamos en al lista
                 while(rs.next()){
                     Producto p = crearProducto(rs);
@@ -36,7 +38,8 @@ public class ProductoRepositorioImpl implements Repositorio<Producto>{
         Producto producto = null;
 
         try(PreparedStatement Pstmt = getConnection().
-                prepareStatement("SELECT * FROM productos WHERE id_prod= ?")){
+                prepareStatement("SELECT p.*,c.id_catg, c.nombre as categoria from productos as p " +
+                        " join categorias as c on p.tipo_cat = c.id_catg WHERE id_prod= ?")){
             Pstmt.setLong(1, id);
             try (ResultSet rs = Pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -55,18 +58,19 @@ public class ProductoRepositorioImpl implements Repositorio<Producto>{
         //xreamos la plantilla
         String sql;
         if (producto.getId_prod() != null && producto.getId_prod() > 0) {
-            sql ="UPDATE productos SET nombre=?, precio=? WHERE id_prod=?";
+            sql ="UPDATE productos SET nombre=?, precio=?,tipo_cat=? WHERE id_prod=?";
 
         } else {
-            sql = "INSERT INTO productos ( nombre,precio,fecha_ingreso) VALUES(?,?,?)";
+            sql = "INSERT INTO productos ( nombre,precio,tipo_cat,fecha_ingreso) VALUES(?,?,?,?)";
         }
         try(PreparedStatement pstmt = getConnection().prepareStatement(sql)){
             pstmt.setString(1, producto.getNombre());
             pstmt.setLong(2, producto.getPrecio());
+            pstmt.setLong(3,producto.getCategoria().getId_catg());
             if (producto.getId_prod() != null && producto.getId_prod() > 0) {
-                pstmt.setLong(3,producto.getId_prod());
+                pstmt.setLong(4,producto.getId_prod());
             } else {
-                pstmt.setDate(3, new Date(producto.getFecha_ingreso().getTime()));
+                pstmt.setDate(4, new Date(producto.getFecha_ingreso().getTime()));
             }
 
             pstmt.executeUpdate();
@@ -96,6 +100,10 @@ public class ProductoRepositorioImpl implements Repositorio<Producto>{
         p.setNombre(rs.getString("nombre"));
         p.setPrecio(rs.getInt("precio"));
         p.setFecha_ingreso(rs.getDate("fecha_ingreso"));
+        Categoria categoria = new Categoria();
+        categoria.setId_catg(rs.getLong("id_catg"));
+        categoria.setNombre(rs.getString("categoria"));
+        p.setCategoria(categoria);
         return p;
     }
 }

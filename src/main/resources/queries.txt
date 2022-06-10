@@ -1,0 +1,5 @@
+//CONSULTAS PARA LISTAR TODOS LOS PRODUCTOS
+
+select p.* , c.nombre as categoria from productos  as p join categorias as c on p.tipo_cat = c.id_catg;
+
+select  * FROM PRODUCTOS;

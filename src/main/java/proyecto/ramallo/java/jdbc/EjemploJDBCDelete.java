@@ -21,7 +21,7 @@ public class EjemploJDBCDelete {
 
             System.out.println("=============== Eliminar producto==================");
             Producto producto = new Producto();
-            producto.setId_prod(7L);
+            producto.setId_prod(8L);
             repositorio.eliminar(producto.getId_prod());
             System.out.println("Producto editado con éxito");
             repositorio.listar().forEach(System.out::println); //con referencia al metodo

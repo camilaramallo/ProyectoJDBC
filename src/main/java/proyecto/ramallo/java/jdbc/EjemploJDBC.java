@@ -1,5 +1,6 @@
 package proyecto.ramallo.java.jdbc;
 
+import proyecto.ramallo.java.jdbc.modelo.Categoria;
 import proyecto.ramallo.java.jdbc.modelo.Producto;
 import proyecto.ramallo.java.jdbc.repositorio.ProductoRepositorioImpl;
 import proyecto.ramallo.java.jdbc.repositorio.Repositorio;
@@ -22,9 +23,12 @@ public class EjemploJDBC {
             System.out.println("===============insertar nuevo producto==================");
 
             Producto producto = new Producto();
-            producto.setNombre("mouse");
-            producto.setPrecio(1000);
+            producto.setNombre("mouse lacer");
+            producto.setPrecio(10000);
             producto.setFecha_ingreso(new Date());
+            Categoria categoria = new Categoria();
+            categoria.setId_catg(4L);
+            producto.setCategoria(categoria);
             repositorio.guardar(producto);
             System.out.println("Producto guardado con éxito");
             repositorio.listar().forEach(System.out::println); //con referencia al metodo

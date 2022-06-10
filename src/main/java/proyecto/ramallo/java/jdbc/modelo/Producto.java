@@ -7,6 +7,7 @@ public class Producto {
     private String nombre;
     private Integer precio;
     private Date fecha_ingreso;
+    private  Categoria categoria;
 
     public Producto (Long id_prod,String nombre,Integer precio,Date fecha_ingreso){
         this.id_prod = id_prod;
@@ -23,7 +24,8 @@ public class Producto {
                 "|" +
                  precio +
                 "|" +
-                fecha_ingreso;
+                fecha_ingreso +
+                "|" + categoria.getNombre() ;
     }
 
     public Producto(){
@@ -60,5 +62,13 @@ public class Producto {
 
     public void setFecha_ingreso(Date fecha){
         this.fecha_ingreso = fecha;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }
